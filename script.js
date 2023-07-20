@@ -194,7 +194,11 @@ const DisplayController = (() => {
         newGameBttn.classList.add('bttn-new-game');
         newGameBttn.textContent = 'New Game';
         newGameDisplay.appendChild(newGameBttn);
-        newGameBttn.addEventListener('click', () => GameFlow.newGame());
+        newGameBttn.addEventListener('click', () => {
+            setTimeout(() => {
+            GameFlow.newGame();
+          }, 400);
+        })
     }
 
     return {clearDisplay, updateGameBoardDisplay, updateTurnDisplay, displayWinner, displayTie, displayNewGameBttn};
