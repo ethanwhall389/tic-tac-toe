@@ -68,12 +68,12 @@ const GameFlow = (() => {
                 if (isThereAWinner == true) {
                     return;
                 }
-                DisplayController.updateTurnDisplay(whoseTurn);
                 currentRound ++;
                 if (currentRound == 10) {
                     tie();
                     return;
                 }
+                DisplayController.updateTurnDisplay(whoseTurn);
                 
                 //Re-call the round() function to start a new round.
                 round();
@@ -139,6 +139,7 @@ const DisplayController = (() => {
     let mainDisplay = document.querySelector('.game-container');
     let gameBoardDisplay = document.querySelector('.game-board');
     let currentTurnDisplay = document.querySelector('.current-turn');
+    let winnerDisplay = document.querySelector('.winner-div');
     
     function clearDisplay(){
         gameBoardDisplay.textContent = '';
@@ -163,6 +164,7 @@ const DisplayController = (() => {
 
     function updateTurnDisplay (whoseTurnIsIt) {
         let currentTurnPara = document.createElement('p');
+        currentTurnPara.classList.add('current-turn-para');
         currentTurnPara.textContent = `It's ${whoseTurnIsIt}'s turn!`;
         currentTurnDisplay.appendChild(currentTurnPara);
     }
@@ -170,13 +172,13 @@ const DisplayController = (() => {
     function displayWinner (winningPlayer) {
         let winnerHeading = document.createElement('h1');
         winnerHeading.textContent = `${winningPlayer} won!`
-        mainDisplay.appendChild(winnerHeading);
+        winnerDisplay.appendChild(winnerHeading);
     }
 
     function displayTie () {
         let TieHeading = document.createElement('h1');
         TieHeading.textContent = 'It\'s a tie!'
-        mainDisplay.appendChild(TieHeading);
+        winnerDisplay.appendChild(TieHeading);
     }
 
     return {clearDisplay, updateGameBoardDisplay, updateTurnDisplay, displayWinner, displayTie};
