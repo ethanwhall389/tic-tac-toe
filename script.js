@@ -24,6 +24,7 @@ const GameFlow = (() => {
     let currentRound = 1;
     let playerOne;
     let playerTwo;
+    let disabledButtons = [];
 
     function newGame () {
         DisplayController.clearDisplay()
@@ -39,7 +40,6 @@ const GameFlow = (() => {
         playerTwo = Player('O');
 
         round(); 
-        
     }
 
 
@@ -47,9 +47,11 @@ const GameFlow = (() => {
         // event listener loop for each button.
         let cell = document.querySelectorAll('.cell');
         cell.forEach( (item) => {
-            item.addEventListener('click', (event) => {
+            item.addEventListener('click', (event) => {                
                 //get data attributes (indexes) from clicked cell
                 let cellIndex = item.getAttribute('data-index');
+                //Push clicked cell's index to disabledButtons array
+                disabledButtons.push(Number(cellIndex));
                 //Change clicked cell marker
                 if (whoseTurn === 'player one') {
                     GameBoard.board[cellIndex].marker = playerOne.marker;
@@ -77,8 +79,6 @@ const GameFlow = (() => {
                 round();
             })
         })
-
-
     }
     
     function scanArrayForWin() {
@@ -132,7 +132,7 @@ const GameFlow = (() => {
         DisplayController.displayTie();
     }
     
-    return {newGame};
+    return {newGame, disabledButtons};
 })()
 
 const DisplayController = (() => {
@@ -151,6 +151,11 @@ const DisplayController = (() => {
             cell.classList.add('cell');
             cell.setAttribute('data-index', i);
             cell.textContent = GameBoard.board[i].marker;
+
+            // if this cell has already been filled, disable it.
+            if (GameFlow.disabledButtons.includes(i)) {
+                cell.disabled = true;
+            };
             gameBoardDisplay.appendChild(cell);
         }
 
