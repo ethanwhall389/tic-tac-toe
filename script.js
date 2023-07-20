@@ -27,7 +27,7 @@ const GameFlow = (() => {
 
     function newGame () {
         DisplayController.clearDisplay()
-        // Removes any values from the board array.
+        // Remove any values from the board array.
         for (let i = 0; i < GameBoard.board.length; i++) {
             GameBoard.board[i].forEach(item => item.marker = '');
         }
@@ -38,12 +38,39 @@ const GameFlow = (() => {
         playerOne = Player('X');
         playerTwo = Player('O');
 
-
+        round();
         function round () {
-            // add content for the game round
+            // event listener loop for each button.
+            let cell = document.querySelectorAll('.cell');
+            cell.forEach( (item) => {
+                item.addEventListener('click', (event) => {
+                    //get data attributes (indexes) from clicked cell
+                    let indexRow = item.getAttribute('data-index-row');
+                    let indexCell = item.getAttribute('data-index-cell');
+                    //Change clicked cell marker
+                    if (whoseTurn === 'player one') {
+                        GameBoard.board[indexRow][indexCell].marker = playerOne.marker;
+                    } else {
+                        GameBoard.board[indexRow][indexCell].marker = playerTwo.marker;
+                    }
+                    //Change whose turn it is
+                    whoseTurn == 'player one' ? whoseTurn = 'player two' : whoseTurn = 'player one';
+                    DisplayController.clearDisplay()
+                    DisplayController.updateGameBoardDisplay();
+
+                    scanArrayForWin();
+                    DisplayController.updateTurnDisplay(whoseTurn);
+
+                    round();
+                })
+            })
+
+
         }
         
-        // scanArrayForWin();
+        function scanArrayForWin() {
+            
+        };
         
         // currentRound++;
         // if (currentRound == 10) {
