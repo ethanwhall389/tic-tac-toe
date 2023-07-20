@@ -38,21 +38,25 @@ body {
     font-size: 2.5em;
     font-family: 'Bakbak One', cursive;
     color: black;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .cell:hover, .cell:active {
     background-color: rgb(240, 221, 128);
+    cursor: pointer;
 }
 
-.cell:disabled {
+.cell:disabled, .cell:disabled:hover {
     background-color: rgb(239, 208, 51);
+    cursor: auto;
 }
 
 .current-turn-para {
     margin: 0;
     font-size: 1.5em;
     font-weight: 400;
+    word-spacing: -8px;
+
 }
 
 .current-turn {
@@ -60,15 +64,55 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.winner-div {
+.new-game-div {
     height: 100px;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    word-spacing: -10px;
 }
 
 .heading {
     justify-self: flex-start;
+    margin: 0;
+}
+
+.bttn-new-game {
+    width: 200px;
+    height: 50px;
+    border: none;
+    font-size: 1.2em;
+    background-color: rgb(240, 221, 128);
+    font-family: 'Sulphur Point', sans-serif;
+    font-weight: 700;
+    transition: 0.5s;
+}
+
+.bttn-new-game:hover {
+    background-color: rgb(239, 208, 51);
+}
+
+
+.footer {
+    margin-bottom: 25px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+}
+
+a {
+    color:rgb(239, 208, 51);
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.1s;
+}
+
+a:hover {
+    color: rgb(240, 221, 128);
 }

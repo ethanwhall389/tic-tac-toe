@@ -27,12 +27,18 @@ const GameFlow = (() => {
     let disabledButtons = [];
 
     function newGame () {
+        currentRound = 1;
+        //Reset the array to be empty.
+        disabledButtons.splice(0, disabledButtons.length);
         DisplayController.clearDisplay()
         // Remove any values from the board array.
         for (let i = 0; i < GameBoard.board.length; i++) {
             GameBoard.board[i].marker = '';
         }
+
+
         DisplayController.updateGameBoardDisplay();
+        whoseTurn = 'player one';
         DisplayController.updateTurnDisplay(whoseTurn);
         
         //Create new players.
@@ -40,6 +46,7 @@ const GameFlow = (() => {
         playerTwo = Player('O');
 
         round(); 
+        return {disabledButtons};
     }
 
 
@@ -123,27 +130,28 @@ const GameFlow = (() => {
     };
 
     function winner (winningPlayer)  {
-        console.log(`${winningPlayer} won!`);
         DisplayController.displayWinner(winningPlayer);
+        DisplayController.displayNewGameBttn();
     }
 
     function tie ()  {
-        console.log('It\'s a tie!');
         DisplayController.displayTie();
+        DisplayController.displayNewGameBttn();
     }
     
-    return {newGame, disabledButtons};
+    return {newGame, disabledButtons, currentRound};
 })()
 
 const DisplayController = (() => {
     let mainDisplay = document.querySelector('.game-container');
     let gameBoardDisplay = document.querySelector('.game-board');
     let currentTurnDisplay = document.querySelector('.current-turn');
-    let winnerDisplay = document.querySelector('.winner-div');
+    let newGameDisplay = document.querySelector('.new-game-div');
     
     function clearDisplay(){
         gameBoardDisplay.textContent = '';
         currentTurnDisplay.textContent = '';
+        newGameDisplay.textContent = ''
     }
 
     function updateGameBoardDisplay () {
@@ -172,16 +180,24 @@ const DisplayController = (() => {
     function displayWinner (winningPlayer) {
         let winnerHeading = document.createElement('h1');
         winnerHeading.textContent = `${winningPlayer} won!`
-        winnerDisplay.appendChild(winnerHeading);
+        currentTurnDisplay.appendChild(winnerHeading);
     }
 
     function displayTie () {
         let TieHeading = document.createElement('h1');
         TieHeading.textContent = 'It\'s a tie!'
-        winnerDisplay.appendChild(TieHeading);
+        currentTurnDisplay.appendChild(TieHeading);
     }
 
-    return {clearDisplay, updateGameBoardDisplay, updateTurnDisplay, displayWinner, displayTie};
+    function displayNewGameBttn () {
+        let newGameBttn = document.createElement('button');
+        newGameBttn.classList.add('bttn-new-game');
+        newGameBttn.textContent = 'New Game';
+        newGameDisplay.appendChild(newGameBttn);
+        newGameBttn.addEventListener('click', () => GameFlow.newGame());
+    }
+
+    return {clearDisplay, updateGameBoardDisplay, updateTurnDisplay, displayWinner, displayTie, displayNewGameBttn};
 })();
 
 
