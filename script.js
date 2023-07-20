@@ -6,9 +6,9 @@ const GameBoard = (() => {
     }
     
     let board = [
-        [Cell(), Cell(), Cell()], //Row one
-        [Cell(), Cell(), Cell()], //Row two
-        [Cell(), Cell(), Cell()] //Row three
+        Cell(), Cell(), Cell(), //Row one
+        Cell(), Cell(), Cell(), //Row two
+        Cell(), Cell(), Cell() //Row three
     ]
     
 
@@ -29,7 +29,7 @@ const GameFlow = (() => {
         DisplayController.clearDisplay()
         // Remove any values from the board array.
         for (let i = 0; i < GameBoard.board.length; i++) {
-            GameBoard.board[i].forEach(item => item.marker = '');
+            GameBoard.board[i].marker = '';
         }
         DisplayController.updateGameBoardDisplay();
         DisplayController.updateTurnDisplay(whoseTurn);
@@ -45,13 +45,12 @@ const GameFlow = (() => {
             cell.forEach( (item) => {
                 item.addEventListener('click', (event) => {
                     //get data attributes (indexes) from clicked cell
-                    let indexRow = item.getAttribute('data-index-row');
-                    let indexCell = item.getAttribute('data-index-cell');
+                    let cellIndex = item.getAttribute('data-index');
                     //Change clicked cell marker
                     if (whoseTurn === 'player one') {
-                        GameBoard.board[indexRow][indexCell].marker = playerOne.marker;
+                        GameBoard.board[cellIndex].marker = playerOne.marker;
                     } else {
-                        GameBoard.board[indexRow][indexCell].marker = playerTwo.marker;
+                        GameBoard.board[cellIndex].marker = playerTwo.marker;
                     }
                     //Change whose turn it is
                     whoseTurn == 'player one' ? whoseTurn = 'player two' : whoseTurn = 'player one';
@@ -69,7 +68,41 @@ const GameFlow = (() => {
         }
         
         function scanArrayForWin() {
-            
+            let possibleWins = [
+                [0, 1, 2], //Row one  
+                [3, 4, 5], //Row two  
+                [6, 7, 8], //Row THREE  
+                [0, 3, 6], //Column ONE
+                [1, 4, 7], //Column TWO
+                [2, 5, 8], //Column THREE
+                [0, 4, 8], //Diagonal ONE
+                [2, 4, 6], //Diagonal TWO
+            ]
+
+            possibleWins.forEach( (possibilityArray) => {
+                const xWins = possibilityArray.every( (cell) => {
+                    return GameBoard.board[cell].marker == 'X';
+                })
+
+                if (xWins == true) {
+                    console.log('player one won!');
+                    winner('player one');
+                    return;
+                }
+            })
+           
+           
+            possibleWins.forEach( (possibilityArray) => {
+                const oWins = possibilityArray.every( (cell) => {
+                    return GameBoard.board[cell].marker == 'O';
+                })
+
+                if (oWins == true) {
+                    console.log('player two won!');
+                    winner('player two');
+                    return;
+                }
+            })
         };
         
         // currentRound++;
@@ -97,15 +130,13 @@ const DisplayController = (() => {
 
     function updateGameBoardDisplay () {
         for (let i = 0; i < GameBoard.board.length; i++) {
-            for (let j = 0; j < GameBoard.board[i].length; j++) {
-                let cell = document.createElement('button');
-                cell.classList.add('cell');
-                cell.setAttribute('data-index-row', i);
-                cell.setAttribute('data-index-cell', j);
-                cell.textContent = GameBoard.board[i][j].marker;
-                gameBoardDisplay.appendChild(cell);
-            }
+            let cell = document.createElement('button');
+            cell.classList.add('cell');
+            cell.setAttribute('data-index', i);
+            cell.textContent = GameBoard.board[i].marker;
+            gameBoardDisplay.appendChild(cell);
         }
+
     }
 
     function updateTurnDisplay (whoseTurnIsIt) {
