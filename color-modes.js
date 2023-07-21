@@ -1,6 +1,7 @@
 // COLOR MODES
 let html = document.querySelector('html');
-html.classList.add('mode-blue');
+//Load yellow board by default
+html.classList.add('mode-yellow');
 
 let swatch = document.querySelectorAll('.swatch');
 swatch.forEach( (item) => {
