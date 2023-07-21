@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="color-modes.js" defer></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <title>Tic-Tac-Toe!</title>
 </head>
 <body>
+    <div class="color-picker-container">
+        <span>Choose a color</span>
+        <div class="swatches-container">
+            <div class="swatch yellow" data-color-mode="mode-yellow"></div>
+            <div class="swatch pink"></div>
+            <div class="swatch green"></div>
+            <div class="swatch black"></div>
+            <div class="swatch blue"></div>
+        </div>
+    </div>
     <div class="game-container">
         <!-- <h1 class="heading">Tic-Tac-Toe!</h1> -->
         <div class="current-turn"></div>

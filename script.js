@@ -1,3 +1,4 @@
+// GAME
 const GameBoard = (() => {
     
     function Cell() {
