@@ -265,6 +265,7 @@ a:hover {
 
     .cell {
         font-size: 1.6em;
+        padding: 0;
     }
 
     .swatches-container {
